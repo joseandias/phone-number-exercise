@@ -8,7 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class PhoneNumberParserTest {
-    public static final String FULL_VALID_NUMBER = "351960000000";
+    private static final String FULL_VALID_NUMBER = "351961034567";
     private PhoneNumberParser parser;
 
     @Before
@@ -17,17 +17,39 @@ public class PhoneNumberParserTest {
     }
 
     @Test
-    public void parseFullNumber() {
+    public void parseFull12DigitsNumber() {
         assertThat(parser.parse(FULL_VALID_NUMBER).get().complete(),
                 is(FULL_VALID_NUMBER));
     }
 
     @Test
-    public void parseNumberWithMultipleSpaces() {
-        final String number = " 351  96 00 00 000 ";
+    public void parse7DigitsNumber() {
+        String number = "1234567";
+
+        assertThat(parser.parse(number).get().complete(),
+                is(number));
+    }
+
+    @Test
+    public void parseSpecialNumber() {
+        String number = "123";
+
+        assertThat(parser.parse(number).get().complete(), is(number));
+    }
+
+    @Test
+    public void spacesAreRemoved() {
+        final String number = " 351  96 12 30 567 ";
 
         assertThat(parser.parse(number).get().complete().matches(".*\\s+.*"),
                 is(false));
+    }
+
+    @Test
+    public void leadingZerosAreRemoved() {
+        final String number = "351961200567";
+
+        assertThat(parser.parse("00" + number).get().complete(), is(number));
     }
 
     @Test
@@ -63,9 +85,15 @@ public class PhoneNumberParserTest {
     }
 
     @Test
-    @Ignore
     public void numberWithPlusAndSpaceAfterIsNotParsed() {
         String number = "+ " + FULL_VALID_NUMBER;
+
+        assertThat(parser.parse(number).isPresent(), is(false));
+    }
+
+    @Test
+    public void numberWithPlusAndZerosAfterIsNotParsed() {
+        String number = "+00" + "123456789";
 
         assertThat(parser.parse(number).isPresent(), is(false));
     }
