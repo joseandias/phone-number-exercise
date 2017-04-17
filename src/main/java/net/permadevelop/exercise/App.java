@@ -13,13 +13,14 @@ public class App {
                 .forEach(number -> number.ifPresent(repository::add));
     }
 
-    public Collection<String> phoneNumbers() {
-        return repository.getAll().stream()
-                .map(PhoneNumber::complete)
+    public Collection<String> areaOccurrences() {
+        return repository.getAllByArea().stream()
+                .map(area -> area.getKey() + ":" + area.getValue())
                 .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
-        System.out.println(new App("phone_numbers.txt").phoneNumbers());
+        new App("phone_numbers.txt").areaOccurrences()
+                .forEach(System.out::println);
     }
 }
