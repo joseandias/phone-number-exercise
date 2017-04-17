@@ -1,6 +1,6 @@
 package net.permadevelop.exercise;
 
-class PhoneNumber {
+public class PhoneNumber {
     private static final String NO_AREA_CODE = "0";
 
     private String number;
@@ -15,19 +15,19 @@ class PhoneNumber {
         this.number = number;
     }
 
-    boolean hasAreaCode() {
+    public boolean hasAreaCode() {
         return !areaCode.equals(NO_AREA_CODE);
     }
 
-    String areaCode() {
+    public String areaCode() {
         return areaCode;
     }
 
-    String complete() {
+    public String complete() {
         return this.hasAreaCode() ? this.areaCode() + number : number;
     }
 
-    String localPart() {
+    public String localPart() {
         return number;
     }
 }

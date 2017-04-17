@@ -10,8 +10,8 @@ public class App {
 
     }
 
-    public String phoneNumbers() {
-        return inputLines.iterator().next();
+    public Collection<PhoneNumber> phoneNumbers() {
+        throw new UnsupportedOperationException();
     }
 
     public static void main(String[] args) {
