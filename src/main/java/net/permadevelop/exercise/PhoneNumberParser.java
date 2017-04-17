@@ -13,7 +13,18 @@ class PhoneNumberParser {
         if (!isValid(number)) {
             return Optional.empty();
         }
-        return Optional.of(new PhoneNumber(number));
+
+        return Optional.of(buildWithAreaCode(number));
+    }
+
+    private PhoneNumber buildWithAreaCode(String number) {
+        if (number.length() > 9) {
+            return new PhoneNumber(
+                    number.substring(0, number.length() - 9),
+                    number.substring(number.length() - 9)
+            );
+        }
+        return new PhoneNumber(number);
     }
 
     private boolean respectsLeadingSymbolRules(String number) {

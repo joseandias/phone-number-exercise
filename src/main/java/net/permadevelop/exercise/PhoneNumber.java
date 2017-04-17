@@ -1,14 +1,33 @@
 package net.permadevelop.exercise;
 
-public class PhoneNumber {
+class PhoneNumber {
+    private static final String NO_AREA_CODE = "0";
 
     private String number;
+    private String areaCode = NO_AREA_CODE;
 
-    public PhoneNumber(String number) {
+    PhoneNumber(String number) {
         this.number = number;
     }
 
-    public String complete() {
+    PhoneNumber(String areaCode, String number) {
+        this.areaCode = areaCode;
+        this.number = number;
+    }
+
+    boolean hasAreaCode() {
+        return !areaCode.equals(NO_AREA_CODE);
+    }
+
+    String areaCode() {
+        return areaCode;
+    }
+
+    String complete() {
+        return this.hasAreaCode() ? this.areaCode() + number : number;
+    }
+
+    String localPart() {
         return number;
     }
 }
