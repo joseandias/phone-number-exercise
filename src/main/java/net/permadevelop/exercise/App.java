@@ -1,17 +1,22 @@
 package net.permadevelop.exercise;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class App {
-    private final Collection<String> inputLines;
+    private final PhoneNumberParser parser = new PhoneNumberParser();
+    private final PhoneNumberRepository repository = new InMemoryPhoneNumberRepository();
 
     public App(String fileName) {
-        inputLines = new MyFileReader().linesFor(fileName);
-
+        new MyFileReader().linesFor(fileName).stream()
+                .map(parser::parse)
+                .forEach(number -> number.ifPresent(repository::add));
     }
 
-    public Collection<PhoneNumber> phoneNumbers() {
-        throw new UnsupportedOperationException();
+    public Collection<String> phoneNumbers() {
+        return repository.getAll().stream()
+                .map(PhoneNumber::complete)
+                .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {

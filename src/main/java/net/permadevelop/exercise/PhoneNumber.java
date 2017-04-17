@@ -30,4 +30,22 @@ public class PhoneNumber {
     public String localPart() {
         return number;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PhoneNumber that = (PhoneNumber) o;
+
+        if (number != null ? !number.equals(that.number) : that.number != null) return false;
+        return areaCode != null ? areaCode.equals(that.areaCode) : that.areaCode == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = number != null ? number.hashCode() : 0;
+        result = 31 * result + (areaCode != null ? areaCode.hashCode() : 0);
+        return result;
+    }
 }
