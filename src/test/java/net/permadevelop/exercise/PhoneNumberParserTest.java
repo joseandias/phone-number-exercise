@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.util.Collections;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -13,7 +15,7 @@ public class PhoneNumberParserTest {
 
     @Before
     public void setUp() {
-        parser = new PhoneNumberParser();
+        parser = new PhoneNumberParser(Collections.emptyList());
     }
 
     @Test

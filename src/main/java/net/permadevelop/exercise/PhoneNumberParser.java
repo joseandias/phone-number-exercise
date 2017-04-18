@@ -1,8 +1,15 @@
 package net.permadevelop.exercise;
 
+import java.util.Collection;
 import java.util.Optional;
 
 class PhoneNumberParser {
+    private Collection<String> areaCodes;
+
+    PhoneNumberParser(Collection<String> areaCodes) {
+        this.areaCodes = areaCodes;
+    }
+
     Optional<PhoneNumber> parse(String number) {
         if (!respectsLeadingSymbolRules(number)) {
             return Optional.empty();
@@ -19,12 +26,19 @@ class PhoneNumberParser {
 
     private PhoneNumber buildWithAreaCode(String number) {
         if (number.length() > 9) {
-            return new PhoneNumber(
-                    number.substring(0, number.length() - 9),
-                    number.substring(number.length() - 9)
-            );
+            String potentialAreaCode = number.substring(0, number.length() - 9);
+            if (isAreaCode(potentialAreaCode)) {
+                return new PhoneNumber(
+                        potentialAreaCode,
+                        number.substring(number.length() - 9)
+                );
+            }
         }
         return new PhoneNumber(number);
+    }
+
+    private boolean isAreaCode(String code) {
+        return areaCodes.contains(code);
     }
 
     private boolean respectsLeadingSymbolRules(String number) {

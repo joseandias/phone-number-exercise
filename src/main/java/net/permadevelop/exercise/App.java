@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class App {
-    private final PhoneNumberParser parser = new PhoneNumberParser();
+    private static final String AREA_CODES_FILENAME = "area_codes.txt";
+    private final PhoneNumberParser parser;
     private final PhoneNumberRepository repository = new InMemoryPhoneNumberRepository();
 
-    public App(String fileName) {
-        new MyFileReader().linesFor(fileName).stream()
+    public App(String numbersFileName) {
+        Collection<String> areaCodes = new MyFileReader().linesFor(AREA_CODES_FILENAME);
+        parser = new PhoneNumberParser(areaCodes);
+        new MyFileReader().linesFor(numbersFileName).stream()
                 .map(parser::parse)
                 .forEach(number -> number.ifPresent(repository::add));
     }
