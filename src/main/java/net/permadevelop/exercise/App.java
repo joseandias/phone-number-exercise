@@ -1,7 +1,10 @@
 package net.permadevelop.exercise;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.stream.Collectors;
+
+import static java.lang.System.out;
 
 public class App {
     private static final String AREA_CODES_FILENAME = "area_codes.txt";
@@ -23,7 +26,22 @@ public class App {
     }
 
     public static void main(String[] args) {
-        new App("phone_numbers.txt").areaOccurrences()
-                .forEach(System.out::println);
+        if (args.length == 1) {
+            new App(args[0]).areaOccurrences()
+                    .forEach(out::println);
+        } else {
+            showHelp();
+        }
+    }
+
+    private static void showHelp() {
+        String commandName = new File(App.class.getProtectionDomain()
+                .getCodeSource()
+                .getLocation()
+                .getPath())
+                .getName();
+        out.println("Usage: ");
+        out.println("  " + commandName + " <input_file>");
+        out.println("  e.g.: " + "java -jar " + commandName + " phone_numbers.txt");
     }
 }
